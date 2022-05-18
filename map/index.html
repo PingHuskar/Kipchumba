@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kipchumba Running Shop Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="/image/logo.jpg" type="image/x-icon">
+	<meta property="og:image" content="/image/logo.jpg" />
+
+  <!-- Load Leaflet code library: see http://leafletjs.com/download.html -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+  <!-- Position the map and title with Cascading Style Sheet (CSS) -->
+  <style>
+  body { margin:0; padding:0; }
+  #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+  #map-title { position: relative; margin-top: 10px; margin-left: 50px; float: left; background: white; border: 2px solid rgba(0,0,0,0.2); padding: 6px 8px; font-family: Helvetica; font-weight: bold; font-size: 24px; z-index: 800; }
+  </style>
+</head>
+<body>
+
+  <!-- Display the map and title with HTML division tags  -->
+  <div id="map-title">Kipchumba Running Shop Map!</div>
+  <div id="map"></div>
+
+  <!-- Create the interactive map content with JavaScript (.js) -->
+  <script>
+
+  // /* Set up the initial map center and zoom level */
+  // var map = L.map('map', {
+  //   center: [39.61, -105.02], // EDIT coordinates to re-center map
+  //   // center: [13.716395834962709, 100.52661027195131], // EDIT coordinates to re-center map
+  //   zoom: 17,  // EDIT from 1 (zoomed out) to 18 (zoomed in)
+  //   scrollWheelZoom: true,
+  //   tap: true
+  // });
+
+  // /* display basemap tiles -- see others at https://leaflet-extras.github.io/leaflet-providers/preview/ */
+  // L.tileLayer(
+  //   'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  //     attribution: '&copy; <a href="https://osm.org/copyright">\
+  //       OpenStreetMap</a> contributors, &copy;\
+  //       <a href="https://carto.com/attribution">CARTO</a>'
+  // }).addTo(map);
+
+  // /* Display a point marker with pop-up text */
+  // L.marker([13.716950748704594, 100.52540508832983]).addTo(map)
+  // .bindPopup("ห้อง 102 (เล็ก) <a href='https://www.google.com/maps/place/%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%AA%E0%B8%9A%E0%B8%B2%E0%B8%A2%E0%B8%AD%E0%B8%9E%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%97%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/@13.7170198,100.5255164,19z/data=!4m5!3m4!1s0x30e298cbece76561:0xd98c940b61cf3bc7!8m2!3d13.7168113!4d100.5253164' target='_blank'>Open Google Maps</a>  Addr : 136 ซอย สาทร 13 แยก 6 แขวง ยานนาวา เขต สาทร กรุงเทพมหานคร 10120")
+
+  // L.marker([13.715853742337151, 100.52489546863102]).addTo(map)
+  // .bindPopup("ห้องใหญ่ วินโดว์ สาทร อพาร์ทเมนต์ <a href='https://www.google.com/maps/place/%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%AA%E0%B8%9A%E0%B8%B2%E0%B8%A2%E0%B8%AD%E0%B8%9E%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%97%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/@13.7170198,100.5255164,19z/data=!4m5!3m4!1s0x30e298cbece76561:0xd98c940b61cf3bc7!8m2!3d13.7168113!4d100.5253164' target='_blank'>Open Google Maps</a> Addr :16 ซอย สาทร 13 แยก 6-1 แขวง ยานนาวา เขต สาทร กรุงเทพมหานคร 10120");
+
+  // L.marker([13.715947125408269, 100.5270738594096]).addTo(map)
+  // .bindPopup("ห้องพยาบาล");
+  
+  var stock = L.layerGroup();
+
+	var mLittleton = L.marker([13.716950748704594, 100.52540508832983]).bindPopup("สุขสบายอพาร์ทเมนท์ ห้อง 102 (เล็ก) <a href='https://www.google.com/maps/place/%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%AA%E0%B8%9A%E0%B8%B2%E0%B8%A2%E0%B8%AD%E0%B8%9E%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%97%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/@13.7170198,100.5255164,19z/data=!4m5!3m4!1s0x30e298cbece76561:0xd98c940b61cf3bc7!8m2!3d13.7168113!4d100.5253164' target='_blank'>Open Google Maps</a>  Addr : 136 ซอย สาทร 13 แยก 6 แขวง ยานนาวา เขต สาทร กรุงเทพมหานคร 10120").addTo(stock);
+	var mDenver = L.marker([13.715853742337151, 100.52489546863102]).bindPopup("ห้องใหญ่ วินโดว์ สาทร อพาร์ทเมนต์ <a href='https://www.google.com/maps/place/%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%AA%E0%B8%9A%E0%B8%B2%E0%B8%A2%E0%B8%AD%E0%B8%9E%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%97%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C/@13.7170198,100.5255164,19z/data=!4m5!3m4!1s0x30e298cbece76561:0xd98c940b61cf3bc7!8m2!3d13.7168113!4d100.5253164' target='_blank'>Open Google Maps</a> Addr :16 ซอย สาทร 13 แยก 6-1 แขวง ยานนาวา เขต สาทร กรุงเทพมหานคร 10120").addTo(stock);
+	var mAurora = L.marker([13.715947125408269, 100.5270738594096]).bindPopup('ห้องพยาบาล').addTo(stock);
+	// var mGolden = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.').addTo(stock);
+
+	var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+	var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+	var grayscale = L.tileLayer(mbUrl, {id: 'mapbox/light-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+	var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+
+	var map = L.map('map', {
+		center: [13.716395834962709, 100.52661027195131],
+		zoom: 18,
+		layers: [grayscale, stock]
+	});
+
+	var baseLayers = {
+		'Grayscale': grayscale,
+		'Streets': streets
+	};
+
+	var overlays = {
+		'Stock': stock
+	};
+
+	var layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+	// var crownHill = L.marker([39.75, -105.09]).bindPopup('This is Crown Hill Park.');
+	// var rubyHill = L.marker([39.68, -105.00]).bindPopup('This is Ruby Hill Park.');
+
+	// var parks = L.layerGroup([crownHill, rubyHill]);
+
+	var satellite = L.tileLayer(mbUrl, {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+	layerControl.addBaseLayer(satellite, 'Satellite');
+	layerControl.addOverlay(parks, 'Parks');
+  </script>
+</body>
+</html>
